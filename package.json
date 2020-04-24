@@ -1,11 +1,14 @@
 {
   "name": "waigaya",
-  "version": "1.0.0",
-  "description": "Team management tool for pair/mob programming",
+  "version": "1.0.4",
+  "description": "This script supports your pair/mob programming.",
   "main": "dist/waigaya.js",
+  "preferGlobal": true,
+  "bin": {"waigaya":  "dist/waigaya.js"},
   "type": "dist/waigaya.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "db/sample.members.json"
   ],
   "scripts": {
     "clean": "rm -rf coverage dist",

@@ -11,7 +11,7 @@ Options:
   -h, --help        display help for command
 
 Commands:
-  member [options]  waigaya member operation
+  member [options]  member operation
   pair [options]    pair operation
   help [command]    display help for command
 ```

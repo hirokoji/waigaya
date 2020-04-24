@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import {Cli} from "./Cli";
 
 const rootDirPath = __dirname + '/../';
