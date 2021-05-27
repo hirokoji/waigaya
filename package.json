@@ -4,7 +4,9 @@
   "description": "This script supports your pair/mob programming.",
   "main": "dist/waigaya.js",
   "preferGlobal": true,
-  "bin": {"waigaya":  "dist/waigaya.js"},
+  "bin": {
+    "waigaya": "dist/waigaya.js"
+  },
   "type": "dist/waigaya.d.ts",
   "files": [
     "dist",

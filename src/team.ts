@@ -7,8 +7,9 @@ export type Member = {
 }
 
 export type Pair = {
-    1: Member['name'],
-    2: Member['name'],
+    first: Member['name'],
+    second: Member['name'],
+    third?: Member['name'],
     id: string
     lastDate?: Date;
 }
@@ -76,10 +77,26 @@ export class Team{
             const result = this.pickSequentialPairs(activePairs);
             return result;
 
-        }else {
+        } else {
             const result = await this.pickRandomPairs(activePairs);
             return result;
         }
+    }
+
+    makePairMob = async (history?:History) => {
+
+        const pairs = await this.makePair(history);
+        const assignedMemberNames:String[] = [];
+        for(const pair of pairs){
+            assignedMemberNames.push(pair['first']);
+            assignedMemberNames.push(pair['second']);
+        }
+
+        const remainMember = this.members.filter((member) => assignedMemberNames.indexOf(member.name) == -1);
+        if(remainMember[0]){
+          pairs[pairs.length - 1]['third'] = remainMember[0].name;
+        }
+        return pairs;
     }
 
     private setDateFromHistory(activePairs: Pair[], history: History) {
@@ -102,7 +119,7 @@ export class Team{
 
             const pickedPair = remainPairs[0];
             remainPairs = remainPairs.filter((remainPair) =>
-                pickedPair["1"] !== remainPair["1"] && pickedPair["1"] !== remainPair["2"] && pickedPair["2"] !== remainPair["1"] && pickedPair["2"] !== remainPair["2"]
+                pickedPair["first"] !== remainPair["first"] && pickedPair["first"] !== remainPair["second"] && pickedPair["second"] !== remainPair["first"] && pickedPair["second"] !== remainPair["second"]
             );
 
             pairs.push(pickedPair);
@@ -128,7 +145,7 @@ export class Team{
     private async pickRandomPair(pairs: Pair[]) {
         const pickedNumber = this.getRandomNumber(pairs.length);
         const remainPairs = pairs.filter((pair) =>
-        pairs[pickedNumber]["1"] !==  pair["1"] && pairs[pickedNumber]["1"] !==  pair["2"] && pairs[pickedNumber]["2"] !==  pair["1"] && pairs[pickedNumber]["2"] !==  pair["2"]
+        pairs[pickedNumber]["first"] !==  pair["first"] && pairs[pickedNumber]["first"] !==  pair["second"] && pairs[pickedNumber]["second"] !==  pair["first"] && pairs[pickedNumber]["second"] !==  pair["second"]
         );
         return {pickedPair: pairs[pickedNumber], remainPairs: remainPairs};
     }
@@ -141,7 +158,7 @@ export class Team{
     }
 
     private makePairObject = (member1:string, member2: string): Pair => {
-        return {'1': member1, '2': member2, id: this.joinWithoutSpace(member1, member2)};
+        return {'first': member1, 'second': member2, id: this.joinWithoutSpace(member1, member2)};
     }
 
     private joinWithoutSpace = (word1: string, word2: string): string => {
